@@ -1,0 +1,75 @@
+1- Comandos
+
+en
+conf t
+hostname B_HSEDE
+no ip domain-lookup
+enable secret ciscogrupo4
+line console 0
+logging synchronous
+password ciscogrupo4
+login
+line aux 0
+password ciscogrupo4
+login
+line vty 0 4
+transport input ssh
+transport output ssh
+password ciscogrupo4
+login
+security passwords min-length 10
+service password-encryption
+banner motd @Authorized acces only!@
+do wr
+
+
+Switchs
+1-
+
+conf t
+vlan 2
+name CONSULTORIA-AG
+vlan 4
+name PRODUCAO
+vlan 8
+name FUNCIONARIOS
+vlan 15
+name ADMINISTRADOR
+vlan 25
+name CONS_VIRTUAL
+vlan 99
+name NULO
+do wr
+
+2 e 3-
+conf t
+int range f0/5-6
+switchport trunk encapsulation dot1q
+switchport mode trunk
+shutdown
+channel-group 3 mode active
+no shutdown
+int port-channel 3
+switchport trunk encapsulation dot1q
+switchport mode trunk
+
+4-
+
+int range f0/7,f0/10,f0/15,f0/24
+switchport mode access
+int f0/7
+switchport access vlan 2
+int f0/10
+switchport access vlan 4
+int f0/15
+switchport access vlan 8
+int f0/24
+switchport access vlan 15
+
+
+sw-a
+7-
+int range f0/6-9,f0/11-14,f0/16-23,g0/1-2
+switchport mode access
+switchport access vlan 99
+shutdown
